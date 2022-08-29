@@ -74,7 +74,7 @@ const int img_buffer_size = 25000;
 ATCMD_NetworkStatus net_status;
 extern uint8_t ESCBuffer[];
 extern uint32_t ESCBufferCnt;
-const char server_ip[16] = "192.168.2.101";
+const char server_ip[16] = "192.168.xxx.xxx";
 const char server_port[6] = "8888";
 const char client_port[6] = "10001";
 uint8_t client_id = 0;
@@ -82,8 +82,8 @@ uint8_t client_id = 0;
 extern "C" {
   bool arduino_wifi_transport_open(struct uxrCustomTransport* transport) {
     ATCMD_REGDOMAIN_E regDomain;
-    const char ssid[32] = "elecom2g-495968";
-    const char pswd[32] = "1360758451781";
+    const char ssid[32] = "ssid";
+    const char pswd[32] = "passwd";
     char macid[20];
 
     // Initialize SPI

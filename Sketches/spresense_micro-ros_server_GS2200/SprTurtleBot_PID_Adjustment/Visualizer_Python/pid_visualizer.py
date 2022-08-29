@@ -8,7 +8,7 @@ import threading
 import matplotlib.pyplot as plt
 import collections
 
-server_ip = "192.168.2.101"
+server_ip = "192.168.xxx.xxx"
 server_port = 8080
 listen_num = 5
 buffer_size = 1024

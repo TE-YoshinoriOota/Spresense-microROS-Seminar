@@ -17,7 +17,6 @@ std_srvs__srv__Trigger_Request req;
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){error_loop();}}
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){}}
 
-
 #include <micro_ros_arduino.h>
 #include <uxr/client/transport.h>
 #include <rmw_microros/rmw_microros.h>
@@ -30,7 +29,7 @@ std_srvs__srv__Trigger_Request req;
 ATCMD_NetworkStatus net_status;
 extern uint8_t ESCBuffer[];
 extern uint32_t ESCBufferCnt;
-const char server_ip[16] = "192.168.2.101";
+const char server_ip[16] = "192.168.xxx.xxx";
 const char server_port[6] = "8888";
 const char client_port[6] = "10001";
 uint8_t client_id = 0;
@@ -39,8 +38,8 @@ extern "C" {
 
   bool arduino_wifi_transport_open(struct uxrCustomTransport* transport) {
     ATCMD_REGDOMAIN_E regDomain;
-    const char ssid[32] = "elecom2g-495968";
-    const char pswd[32] = "1360758451781";
+    const char ssid[32] = "ssid";
+    const char pswd[32] = "passwd";
     char macid[20];
 
     // Initialize SPI

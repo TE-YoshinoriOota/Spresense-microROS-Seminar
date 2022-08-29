@@ -10,10 +10,10 @@ MPMutex mutex(MP_MUTEX_ID0);
 #include <GS2200AtCmd.h>
 #include <GS2200Hal.h>
 
-#define  AP_SSID        "elecom2g-495968"
-#define  PASSPHRASE     "1360758451781"
+#define  AP_SSID        "ssid"
+#define  PASSPHRASE     "passwd"
 
-#define  TCPSRVR_IP     "192.168.2.101"
+#define  TCPSRVR_IP     "192.168.xxx.xxx"
 #define  TCPSRVR_PORT   "8080"
 
 extern uint8_t ESCBuffer[];

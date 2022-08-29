@@ -43,6 +43,7 @@ extern "C" {
     /* if this enables, the program will crash when the ros2 agent is not running on the network */
     /* Since micro-ROS calls the close-API and the write-API simultaneously,                     */
     /* the write-API may cause the probelm during closing of the network  (timing issue)         */
+    return true;
   }
 
   size_t arduino_wifi_transport_write(struct uxrCustomTransport* transport, const uint8_t* buf, size_t len, uint8_t* errcode) {

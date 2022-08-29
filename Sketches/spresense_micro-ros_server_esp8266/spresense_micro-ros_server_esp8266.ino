@@ -16,7 +16,6 @@ static rclc_executor_t executor;
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){error_loop();}}
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){}}
 
-
 #include <micro_ros_arduino.h>
 #include <uxr/client/transport.h>
 #include <rmw_microros/rmw_microros.h>
@@ -41,6 +40,7 @@ extern "C" {
     /* if this enables, the program will crash when the ros2 agent is not running on the network */
     /* Since micro-ROS calls the close-API and the write-API simultaneously,                     */
     /* the write-API may cause the probelm during closing of the network  (timing issue)         */
+    return true;
   }
 
   size_t arduino_wifi_transport_write(struct uxrCustomTransport* transport, const uint8_t* buf, size_t len, uint8_t* errcode) {

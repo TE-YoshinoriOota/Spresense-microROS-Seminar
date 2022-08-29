@@ -24,7 +24,7 @@ std_msgs__msg__Int32 msg;
 #include <rmw_microros/rmw_microros.h>
 
 #include "ESP8266ATLib.h"
-const char server_ip[16] = "192.168.2.101";
+const char server_ip[16] = "192.168.xxx.xxx";
 const char server_port[6] = "8888";
 
 extern "C" {
@@ -33,7 +33,7 @@ extern "C" {
   bool arduino_wifi_transport_open(struct uxrCustomTransport* transport) {
     bool result = false;
     esp8266at.begin(BAUDRATE);
-    result = esp8266at.espConnectAP("elecom2g-495968","1360758451781");
+    result = esp8266at.espConnectAP("ssid","passwd");
     Serial.println("IP Address is " + esp8266at.getLocalIP());
     result = esp8266at.setupUdpClient(server_ip, server_port);
     return result;

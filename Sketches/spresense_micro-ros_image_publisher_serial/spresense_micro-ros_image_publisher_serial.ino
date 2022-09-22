@@ -42,7 +42,7 @@ void setup() {
   RCCHECK(rclc_support_init(&support, 0, NULL, &allocator));   
   
   // create node 
-  RCCHECK(rclc_node_init_default(&node, "my_node_esp8266", "", &support));
+  RCCHECK(rclc_node_init_default(&node, "my_node_serial", "", &support));
   
   // create publisher
   RCCHECK(rclc_publisher_init_default(

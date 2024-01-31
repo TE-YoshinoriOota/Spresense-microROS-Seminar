@@ -26,3 +26,11 @@ Spresense microROS/ROS2(humble) Seminar materials
 |[spresense_micro-ros_image_publisher_esp8266](https://github.com/TE-YoshinoriOota/Spresense-microROS-Seminar/blob/main/Sketches/spresense_micro-ros_image_publisher_esp8266/spresense_micro-ros_image_publisher_esp8266.ino)|Image Publisher example using Spresense ESP8266 WiFi add-on board|
 |[SprTurtleBot_PID_Adjustment](https://github.com/TE-YoshinoriOota/Spresense-microROS-Seminar/tree/main/Sketches/SprTurtleBot_PID_Adjustment)|PID visualizer to adjust Kp/Ki/Kd of PID coefficient. This programs contain a python program for visualizing PID control outputs |
 |[SprTurtleBot](https://github.com/TE-YoshinoriOota/Spresense-microROS-Seminar/tree/main/Sketches/SprTurtleBot)|SprTurtleBot program implemented to multicores. MainCore is implemented as a microROS frontend. SubCore is implemented as a PID controller to driver motors. |
+
+# resource
+| file name | purpose |
+| --- | --- |
+| BodyBase.stl | Base Board for Spresense |
+| BatteryBase.stl | Base Board (W 22.5mm x H 94.5mm) for Battery |
+| Camera.stl | Camera Folder |
+| CameraAdjuster.stl | Camera Adjuster to fit Camera Circle Base (if it needs) |

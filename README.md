@@ -32,5 +32,4 @@ Spresense microROS/ROS2(humble) Seminar materials
 | --- | --- |
 | BodyBase.stl | Base Board for Spresense |
 | BatteryBase.stl | Base Board (W 22.5mm x H 94.5mm) for Battery |
-| Camera.stl | Camera Folder |
-| CameraAdjuster.stl | Camera Adjuster to fit Camera Circle Base (if it needs) |
+| HDRCAM_Holder.stl | Camera Holder |

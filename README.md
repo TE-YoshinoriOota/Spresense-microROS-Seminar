@@ -41,5 +41,5 @@ Assembly image of Camera Holder
 
 ## License
 - Source codes are under LGPL V2.1
-- The textbook and 3D models are CC-BY-SA <br>
+- The textbook and 3D models are under CC-BY-SA <br>
 ![image](https://github.com/user-attachments/assets/b4e995f8-34ec-491f-924f-9cb25171d59b)

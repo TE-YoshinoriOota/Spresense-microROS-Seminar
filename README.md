@@ -37,3 +37,9 @@ Spresense microROS/ROS2(humble) Seminar materials
 Assembly image of Camera Holder
 
 ![image](https://github.com/TE-YoshinoriOota/Spresense-microROS-Seminar/assets/14106176/9419db5b-a29c-4ace-9fb5-4c3301b75235)
+
+
+## License
+- Source codes are under LGPL V2.1
+- The textbook and 3D models are CC-BY-SA <br>
+![image](https://github.com/user-attachments/assets/b4e995f8-34ec-491f-924f-9cb25171d59b)

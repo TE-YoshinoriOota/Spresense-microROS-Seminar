@@ -53,6 +53,25 @@ struct rover_odm {
 
 struct rover_odm rover_odm;
 
+struct qua {
+  float qx;
+  float qy;
+  float qz;
+  float qw;
+};
+
+// odometry pose
+static float odm_lin_x = 0.0;
+static float odm_ang_z = 0.0;
+static float odm_pos_x = 0.0;
+static float odm_pos_y = 0.0;
+static float odm_pos_z = 0.036;
+// odometry quaternion
+static float odm_qt_qx = 0.0;
+static float odm_qt_qy = 0.0;
+static float odm_qt_qz = 0.0;
+static float odm_qt_qw = 0.0;
+
 volatile uint32_t R = 0;
 volatile uint32_t L = 0;
 void Encoder0() {  ++R; }
@@ -70,6 +89,54 @@ float calc_speed(uint32_t enc_count, uint32_t duration_ms, float* mileage, float
   *mileage = mileage_;
   if (target < 0) rov_speed_ = -rov_speed_;
   return rov_speed_;
+}
+
+void quaternion_from_euler(float roll, float pitch, float yaw, struct qua* q) {
+  float cr = arm_cos_f32(roll * 0.5f);
+  float sr = arm_sin_f32(roll * 0.5f);
+  float cp = arm_cos_f32(pitch * 0.5f);
+  float sp = arm_sin_f32(pitch * 0.5f);
+  float cy = arm_cos_f32(yaw * 0.5f);
+  float sy = arm_sin_f32(yaw * 0.5f);
+
+  q->qw = cr * cp * cy + sr * sp * sy;
+  q->qx = sr * cp * cy - cr * sp * sy;
+  q->qy = cr * sp * cy + sr * cp * sy;
+  q->qz = cr * cp * sy - sr * sp * cy;
+}
+
+void update_odometry(float curr_R_vel, float curr_L_vel, float duration) {
+  // calc pose
+  static float pos_x = 0.0;
+  static float pos_y = 0.0;
+  static float ang_z = 0.0;
+
+  float v = (curr_R_vel + curr_L_vel) / 2.;
+  float delta_x = v*duration*arm_cos_f32(ang_z);
+  float delta_y = v*duration*arm_sin_f32(ang_z);
+
+  //float last_ang_z = ang_z;
+  float omega = (curr_R_vel - curr_L_vel) / (2.*d - 0.01);  // 0.01 is adjustment valueIM
+  float delta_angle = omega * duration;
+
+  pos_x += delta_x;
+  pos_y += delta_y;
+  ang_z += delta_angle;
+  if (ang_z >=  2.*M_PI) ang_z -= 2.*M_PI;
+  if (ang_z <= -2.*M_PI) ang_z += 2.*M_PI;
+
+  // calc quaternion
+  struct qua q;
+  quaternion_from_euler(0., 0., ang_z, &q);
+
+  odm_lin_x = v;
+  odm_ang_z = omega;
+  odm_pos_x = pos_x;
+  odm_pos_y = pos_y;
+  odm_qt_qx = q.qx;
+  odm_qt_qy = q.qy;
+  odm_qt_qz = q.qz;
+  odm_qt_qw = q.qw;
 }
 
 void setup() {
@@ -114,7 +181,7 @@ void loop() {
       if (msg->data == true && motor_power == false) {
         digitalWrite(MOTOR_SW, HIGH);
         motor_power = true;
-        // no need to set but just in case
+        // no need to set zero, but just in case
         VRt = VLt = 0.0; 
         R_err_integ = L_err_integ = 0.0;  
         MPLog("TurtleBotSPR ON\n");
@@ -194,24 +261,13 @@ void loop() {
       duration,cur_R,cur_L,R_Vm,L_Vm,R_mileage,L_mileage,VRt,VLt);
     MPLog("R_Vm: %f, L_Vm: %f, duration\n", R_Vm, L_Vm, duration);
   }
- 
-  if (abs(R_Vm) > 0.0 || abs(L_Vm) > 0.0) {
-    // calc odometry
-    static float odm_ang_z = 0.0;
-    static float odm_pos_x = 0.0;
-    static float odm_pos_y = 0.0;
-    static float odm_qt_qz = 0.0;
-    static float odm_qt_qw = 0.0;
 
-    float duration_sec = (float)duration/1000;
-    float last_odm_ang_z = odm_ang_z;
-    odm_ang_z += (R_Vm - L_Vm)*duration_sec/(2.*d);
-    if (odm_ang_z > 2.*PI) odm_ang_z -= 2.*PI;
-    odm_pos_x += (R_Vm + L_Vm)*duration_sec/2.*arm_cos_f32(last_odm_ang_z+odm_ang_z/2);
-    odm_pos_y += (R_Vm + L_Vm)*duration_sec/2.*arm_sin_f32(last_odm_ang_z+odm_ang_z/2);
-    odm_qt_qz = arm_sin_f32(odm_ang_z/2) - arm_cos_f32(odm_ang_z/2);
-    odm_qt_qw = arm_cos_f32(odm_ang_z/2) + arm_sin_f32(odm_ang_z/2);
+  // build up odometry topic
+  if (abs(R_Vm) > 0.0 || abs(L_Vm) > 0.0) {
   
+    // calc odometry
+    update_odometry(R_Vm, L_Vn, duration_sec)
+
     rover_odm.odm_ang_z = odm_ang_z;
     rover_odm.odm_pos_x = odm_pos_x;
     rover_odm.odm_pos_y = odm_pos_y;

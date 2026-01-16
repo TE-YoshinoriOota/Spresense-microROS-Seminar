@@ -209,8 +209,8 @@ void loop() {
     if (odm_ang_z > 2.*PI) odm_ang_z -= 2.*PI;
     odm_pos_x += (R_Vm + L_Vm)*duration_sec/2.*arm_cos_f32(last_odm_ang_z+odm_ang_z/2);
     odm_pos_y += (R_Vm + L_Vm)*duration_sec/2.*arm_sin_f32(last_odm_ang_z+odm_ang_z/2);
-    odm_qt_qz = arm_sin_f32(odm_ang_z/2) - arm_cos_f32(odm_ang_z/2);
-    odm_qt_qw = arm_cos_f32(odm_ang_z/2) + arm_sin_f32(odm_ang_z/2);
+    odm_qt_qz = arm_sin_f32(odm_ang_z/2);
+    odm_qt_qw = arm_cos_f32(odm_ang_z/2);
   
     rover_odm.odm_ang_z = odm_ang_z;
     rover_odm.odm_pos_x = odm_pos_x;
